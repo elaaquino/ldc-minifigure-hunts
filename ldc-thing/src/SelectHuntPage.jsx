@@ -5,9 +5,9 @@ function SelectHuntPage() {
 
   const hunts = [
     { id: 'astronauts', name: 'Rainbow Astronauts' },
-    { id: 'food', name: 'Food Minifigures' },
-    { id: 'movie', name: 'LEGO Movie' },
-    { id: 'exclusive-summer', name: 'EXCLUSIVE Summer Hunt' },
+    { id: 'easter', name: 'Easter Hunt' },
+    { id: 'dreamz', name: 'Dreamzzz Character Hunt' },
+    { id: 'onthego', name: 'On the go!' },
   ];
 
   return (

@@ -3,9 +3,9 @@ import { useState } from 'react';
 
 const mockHunts = {
   astronauts: ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple'],
-  food: ['Burger', 'Pizza', 'Ice Cream'],
-  movie: ['Unikitty', 'WildStyle', 'Emmet', 'PresidentBusiness', 'EvilBot'],
-  'exclusive-summer': ['Sun', 'Beachball', 'Ice Cream Cone'],
+  easter: ['Trident', 'Dotted', 'Chocolate', 'Pirate', 'Striped', 'Glass', 'Sunglasses', 'Heart', 'Pinktie'],
+  dreamz: ['Cooper', 'Mrs Castillo', 'Mateo', 'Izzie', 'Zoey', 'Mr Oz'],
+  onthego: ['Rocketship', 'Cowboy', 'Racecar', 'Boat', 'Airplane', 'Train'],
 };
 
 function HuntPage() {
