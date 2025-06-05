@@ -1,0 +1,61 @@
+.hunt-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.hunt-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hunt-title {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.back-button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  background-color: #f44336;
+  color: white;
+  cursor: pointer;
+}
+
+.minifig-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.minifig-card {
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  background-color: #fafafa7a;
+  box-shadow: 5px 5px 5px #888888;
+}
+
+.minifig-card img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.minifig-name {
+  margin-top: 6px;
+  font-weight: bold;
+}
+
+.upload-placeholder {
+  margin-top: 8px;
+  color: #888;
+}
+
+input[type="file"] {
+  margin-top: 8px;
+}

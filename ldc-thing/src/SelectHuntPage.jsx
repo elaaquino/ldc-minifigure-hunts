@@ -11,23 +11,28 @@ function SelectHuntPage() {
   ];
 
   return (
-    <div className="select-name">
-      <h2>Select a hunt</h2>
-      <ul style={{ listStyleType: 'none', padding: 0 }}>
+    <div
+      style={{
+        maxWidth: '480px',
+        margin: '0 auto',
+        padding: '20px',
+        textAlign: 'center',
+      }}
+    >
+      <h2 style={{ marginBottom: '20px' }}>Select a Hunt</h2>
+      <ul style={{ listStyle: 'none', padding: 0 }}>
         {hunts.map((hunt) => (
-          <li key={hunt.id} style={{ marginBottom: '10px' }}>
+          <li key={hunt.id} style={{ marginBottom: '12px' }}>
             <button
               onClick={() => navigate(`/hunt/${hunt.id}`)}
               style={{
-                cursor: 'pointer',
-                padding: '10px 15px',
-                fontSize: '1rem',
-                borderRadius: '6px',
-                border: '1px solid #ccc',
                 width: '100%',
-                maxWidth: '400px',
-                textAlign: 'center',
-                background: '#f0f0f0',
+                padding: '12px',
+                fontSize: '1rem',
+                borderRadius: '8px',
+                border: '1px solid #ccc',
+                background: '#5c5858',
+                cursor: 'pointer',
               }}
             >
               {hunt.name}

@@ -1,5 +1,6 @@
 import { Routes, Route, useNavigate } from 'react-router-dom';
-import HuntPage from './HuntPage';  // make sure this path is correct!
+import HuntPage from './HuntPage';
+import SelectHuntPage from './SelectHuntPage'; // ✅ import the actual file
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -13,20 +14,12 @@ function LandingPage() {
   );
 }
 
-function SelectHuntPage() {
-  return (
-    <div style={{ textAlign: 'center', padding: '20px'}}>
-      <h1>Select a hunt</h1>
-    </div>
-  )
-}
-
 function App() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
-      <Route path="/select" element={<SelectHuntPage />} />
-      <Route path="/hunt/:huntId" element={<HuntPage />} />  {/* This line */}
+      <Route path="/select" element={<SelectHuntPage />} /> {/* ✅ now it uses the real one */}
+      <Route path="/hunt/:huntId" element={<HuntPage />} />
     </Routes>
   );
 }
