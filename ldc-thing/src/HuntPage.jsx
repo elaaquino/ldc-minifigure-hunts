@@ -29,33 +29,42 @@ function HuntPage() {
   };
 
   return (
-    <div className="hunt-container">
-    <div className="hunt-header">
-      <h2 className="hunt-title">{huntId.toUpperCase()} Hunt</h2>
-      <button className="back-button" onClick={() => navigate('/select')}>← Back</button>
-    </div>
 
-    <div className="minifig-grid">
-      {minifigs.map((name) => {
-        const fileName = name.toLowerCase().replace(/\s+/g, '') + '.png';
-        const imageUrl = `/minifigs/${fileName}`;
-        const uploadedUrl = found[name];
+    <div className="minifig-list">
+    {minifigs.map((name) => {
+      const imageUrl = getReferenceImage(name);
+      const uploadedUrl = found[name];
 
-        return (
-          <div key={name} className="minifig-card">
-            <img src={imageUrl} alt={name} />
+      return (
+        <div key={name} className="minifig-row">
+          {/* Left: Reference Minifig */}
+          <div className="minifig-column">
             <p className="minifig-name">{name}</p>
-
-            {uploadedUrl ? (
-              <img src={uploadedUrl} alt={`Uploaded for ${name}`} />
-            ) : (
-              <div className="upload-placeholder">No photo yet</div>
-            )}
-            <input type="file" accept="image/*" onChange={(e) => handleUpload(name, e)} />
+            <img className="minifig-img" src={imageUrl} alt={name} />
           </div>
-        );
-      })}
-    </div>
+
+          {/* Right: Upload Section */}
+          <div className="upload-column">
+            {uploadedUrl ? (
+              <img className="upload-img" src={uploadedUrl} alt={`Uploaded for ${name}`} />
+            ) : (
+              <div className="upload-placeholder">
+                <p>Found {name}?<br />Press here and take a picture!</p>
+              </div>
+            )}
+            <label className="camera-button">
+              <img src="/camera.png" alt="Upload" className="camera-icon" />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleUpload(name, e)}
+                style={{ display: 'none' }}
+              />
+            </label>
+          </div>
+        </div>
+      );
+    })}
   </div>
   );
 }

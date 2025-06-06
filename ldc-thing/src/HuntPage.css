@@ -1,61 +1,104 @@
-.hunt-container {
-  padding: 20px;
-  font-family: Arial, sans-serif;
+@font-face {
+  font-family: 'Mplus 1p Bold';
+  src: url('fonts/mplus-1p-bold.woff2') format('woff2'),
+       url('fonts/mplus-1p-bold.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
 
-.hunt-header {
+:root {
+  --card-gap: 20px;
+}
+
+.minifig-list {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: var(--card-gap); /* rows spaced evenly */
 }
 
-.hunt-title {
-  margin: 0;
-  font-size: 1.5rem;
-}
-
-.back-button {
-  padding: 6px 12px;
-  border-radius: 6px;
-  border: none;
-  background-color: #f44336;
-  color: white;
-  cursor: pointer;
-}
-
-.minifig-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-top: 20px;
-}
-
-.minifig-card {
-  border: 2px solid #ccc;
-  border-radius: 10px;
-  padding: 10px;
-  text-align: center;
-  background-color: #fafafa7a;
-  box-shadow: 5px 5px 5px #888888;
-}
-
-.minifig-card img {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 6px;
-}
-
-.minifig-name {
-  margin-top: 6px;
-  font-weight: bold;
+.minifig-img,
+.upload-img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border-radius: 20px;
 }
 
 .upload-placeholder {
-  margin-top: 8px;
-  color: #888;
+  height: 90px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.minifig-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: var(--card-gap); /* spacing between columns */
+  background-color: #f1d75c;
+  padding-left: 20px;
+  border-radius: 20px;
+}
+
+.minifig-column,
+.upload-column {
+  flex: 1;
+  min-width: 40%;
+  max-width: 48%;
+  background-color: #fdf6d8;
+  border-radius: 20px;
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+  padding: 12px;
+  text-align: center;
+}
+
+.minifig-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 6px 0;
+  color: black;
+}
+
+.minifig-img, .upload-img {
+  width: 80px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 20px;
+  margin: 5px 0;
+}
+
+.upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #444;
+  font-size: 0.9rem;
 }
 
 input[type="file"] {
   margin-top: 8px;
+  font-size: 0.8rem;
+}
+
+.camera-button {
+  display: inline-block;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.camera-button:hover {
+  transform: scale(1.1);
+}
+
+.camera-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 50%;
+  background-color: #fff;
+  padding: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
