@@ -46,21 +46,33 @@ function HuntPage() {
           {/* Right: Upload Section */}
           <div className="upload-column">
             {uploadedUrl ? (
-              <img className="upload-img" src={uploadedUrl} alt={`Uploaded for ${name}`} />
-            ) : (
-              <div className="upload-placeholder">
-                <p>Found {name}?<br />Press here and take a picture!</p>
-              </div>
-            )}
-            <label className="camera-button">
-              <img src="/camera.png" alt="Upload" className="camera-icon" />
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => handleUpload(name, e)}
-                style={{ display: 'none' }}
-              />
-            </label>
+            <div className="upload-complete">
+              <img src={uploadedUrl} alt={`Uploaded for ${name}`} className="upload-img" />
+              <label className="retake-button">
+                Retake
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleUpload(name, e)}
+                  style={{ display: 'none' }}
+                />
+              </label>
+            </div>
+          ) : (
+            <div className="upload-placeholder">
+              <p className="upload-title">Found {name}?</p>
+              <label className="camera-button">
+                <img src="/camera.png" alt="Take a picture" className="camera-icon" />
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleUpload(name, e)}
+                  style={{ display: 'none' }}
+                />
+              </label>
+              <p>Press here and take a picture!</p>
+            </div>
+          )}
           </div>
         </div>
       );
