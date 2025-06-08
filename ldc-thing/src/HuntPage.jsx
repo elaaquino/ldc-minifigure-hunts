@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useEffect } from 'react';
 import './HuntPage.css';
 
 const mockHunts = {
@@ -19,6 +20,15 @@ function HuntPage() {
   const navigate = useNavigate();
   const minifigs = mockHunts[huntId] || [];
   const [found, setFound] = useState({});
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    console.log("checking hunt");
+    if (minifigs.length > 0 && Object.keys(found).length === minifigs.length) {
+      console.log("hunt finished, running popup");
+      setShowPopup(true); // you'll define this popup state below
+    }
+  }, [found, minifigs]);
 
   const handleUpload = (name, event) => {
     const file = event.target.files[0];
@@ -29,7 +39,21 @@ function HuntPage() {
   };
 
   return (
+    <div className="hunt-container">
+      <div className="hunt-header-container">
+      <p className="hunt-subtitle">LEGOLAND Discovery Center Bay Area</p>
+      <h1 className="hunt-title">{huntId.charAt(0).toUpperCase() + huntId.slice(1)} Hunt</h1>
 
+      <div className="hunt-header-buttons">
+        <div className="found-counter">
+          {Object.keys(found).length}/{minifigs.length} Found!
+        </div>
+        <button className="back-button" onClick={() => navigate('/select')}>
+          ← Back
+        </button>
+      </div>
+    </div>
+        
     <div className="minifig-list">
     {minifigs.map((name) => {
       const imageUrl = getReferenceImage(name);
@@ -77,6 +101,16 @@ function HuntPage() {
         </div>
       );
     })}
+  </div>
+    {showPopup && (
+    <div className="popup-overlay">
+      <div className="popup-box">
+        <h2>🎉 Congratulations!</h2>
+        <p>You found all the minifigures in the {huntId} hunt! Please check in with an employee. :D</p>
+        <button onClick={() => setShowPopup(false)}>Close</button>
+      </div>
+    </div>
+  )}
   </div>
   );
 }
