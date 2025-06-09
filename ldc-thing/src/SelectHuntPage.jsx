@@ -23,6 +23,8 @@ function SelectHuntPage() {
           </li>
         ))}
       </ul>
+      <p className="hint-text">Need a hint?</p>
+      <p className="hint-text">Ask a staff member!</p>
     </div>
   );
 }
