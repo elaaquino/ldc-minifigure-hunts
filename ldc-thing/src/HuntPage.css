@@ -25,6 +25,8 @@
 }
 
 .minifig-row {
+  height: 180px;
+  width: 330px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
