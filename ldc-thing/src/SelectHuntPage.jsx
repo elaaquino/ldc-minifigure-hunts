@@ -13,7 +13,7 @@ function SelectHuntPage() {
 
   return (
     <div className="hunt-page">
-      <h2>Select a Hunt</h2>
+      <h2>Choose your hunt!</h2>
       <ul className="hunt-list">
         {hunts.map((hunt) => (
           <li className="button-format">

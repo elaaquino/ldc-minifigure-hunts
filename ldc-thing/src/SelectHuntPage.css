@@ -4,8 +4,7 @@ h2 {
 }
 .hunt-buttons {
     color:#444;
-    width: 100%;
-    padding: 12px;
+    width: 90%;
     font-size: 20px;
     border-radius: 20px;
     background-color: #fdf6d8;
@@ -23,8 +22,8 @@ h2 {
 }
 
 .hunt-page {
-    max-width: 480px;
+    width: 375px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 5px;
     text-align: center;
 }

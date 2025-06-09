@@ -1,15 +1,18 @@
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import HuntPage from './HuntPage';
-import SelectHuntPage from './SelectHuntPage'; // ✅ import the actual file
+import SelectHuntPage from './SelectHuntPage'; //
+import './App.css'
 
 function LandingPage() {
   const navigate = useNavigate();
 
   return (
-    <div style={{ textAlign: 'center', padding: '20px' }}>
-      <h1>LEGO Scavenger Hunt</h1>
-      <p>Select your hunt and start finding minifigures!</p>
-      <button onClick={() => navigate('/select')}>Start!</button>
+    <div className ="cover">
+      <h4>LEGOLAND Discovery Center Bay Area</h4>
+      <h1>Minifigure Scavenger Hunt</h1>
+      <p className="subtitle">Walk through Miniland and <br ></br>search for lost minifigures!</p>
+      <p className="subtitle">Each completed hunt will <br ></br> earn you a prize!</p>
+      <button className="start-button" onClick={() => navigate('/select')}>Start!</button>
     </div>
   );
 }
@@ -18,7 +21,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
-      <Route path="/select" element={<SelectHuntPage />} /> {/* ✅ now it uses the real one */}
+      <Route path="/select" element={<SelectHuntPage />} />
       <Route path="/hunt/:huntId" element={<HuntPage />} />
     </Routes>
   );
