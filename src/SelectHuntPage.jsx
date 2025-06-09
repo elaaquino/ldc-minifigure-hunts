@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import './SelectHuntPage.css'
+import React from 'react';
 
 function SelectHuntPage() {
   const navigate = useNavigate();

@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import React from 'react';
 import { useEffect } from 'react';
 import './HuntPage.css';
 

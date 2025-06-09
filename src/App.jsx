@@ -1,7 +1,8 @@
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import HuntPage from './HuntPage';
 import SelectHuntPage from './SelectHuntPage'; //
-import './App.css'
+import React from 'react';
+import './App.css';
 
 function LandingPage() {
   const navigate = useNavigate();
