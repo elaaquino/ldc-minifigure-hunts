@@ -1,7 +1,8 @@
-h2 {
+.choose-hunt {
     color: black;
     margin-bottom: 20px;
 }
+
 .hunt-buttons {
     color:#444;
     width: 90%;
@@ -19,6 +20,19 @@ h2 {
 
 .button-format {
     margin-bottom: 12px;
+}
+
+.hint-text {
+  color: black;
+  margin: 5px;
+  font-weight: bold;
+}
+
+.hint-text2 {
+    color:#444;
+    margin: 5px;
+    font-size: 12px;
+    font-weight:bold;
 }
 
 .hunt-page {

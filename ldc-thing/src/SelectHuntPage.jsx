@@ -13,7 +13,7 @@ function SelectHuntPage() {
 
   return (
     <div className="hunt-page">
-      <h2>Choose your hunt!</h2>
+      <h2 className="choose-hunt">Choose your hunt!</h2>
       <ul className="hunt-list">
         {hunts.map((hunt) => (
           <li className="button-format">
@@ -25,6 +25,7 @@ function SelectHuntPage() {
       </ul>
       <p className="hint-text">Need a hint?</p>
       <p className="hint-text">Ask a staff member!</p>
+      <p className="hint-text2">Hunt data resets once site closes.</p>
     </div>
   );
 }

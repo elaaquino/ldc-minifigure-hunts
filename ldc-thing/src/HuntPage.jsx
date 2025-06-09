@@ -5,7 +5,7 @@ import './HuntPage.css';
 
 const mockHunts = {
   astronauts: ['Red','Pink', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple', 'Brown', 'White', 'Gray', 'Black'],
-  easter: ['Trident', 'Dotted', 'Chocolate', 'Pirate', 'Striped', 'Glass', 'Sunglasses', 'Heart', 'Pinktie'],
+  easter: ['Trident', 'Dotted', 'Chocolate', 'Pirate', 'Striped', 'Glass', 'Sunglasses', 'Heart', 'Pink Tie'],
   dreamz: ['Cooper', 'Mrs Castillo', 'Mateo', 'Izzie', 'Zoey', 'Mr Oz'],
   onthego: ['Rocketship', 'Cowboy', 'Racecar', 'Boat', 'Airplane', 'Train'],
 };
@@ -17,10 +17,15 @@ const getReferenceImage = (name) => {
 
 function HuntPage() {
   const { huntId } = useParams();
+  const storageKey = `found-${huntId}`;
   const navigate = useNavigate();
   const minifigs = mockHunts[huntId] || [];
-  const [found, setFound] = useState({});
+  const [found, setFound] = useState(() => {
+    const stored = sessionStorage.getItem(storageKey);
+    return stored ? JSON.parse(stored) : {};
+  });
   const [showPopup, setShowPopup] = useState(false);
+  
 
   useEffect(() => {
     console.log("checking hunt");
@@ -29,6 +34,10 @@ function HuntPage() {
       setShowPopup(true); // you'll define this popup state below
     }
   }, [found, minifigs]);
+
+  useEffect(() => {
+    sessionStorage.setItem(storageKey, JSON.stringify(found));
+  }, [found]);
 
   const handleUpload = (name, event) => {
     const file = event.target.files[0];
