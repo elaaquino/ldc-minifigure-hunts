@@ -1,7 +1,9 @@
 {
-  "build": {
-    "env": {
-      "NODE_VERSION": "18"
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/node"
     }
-  }
+  ],
+  "buildCommand": "npm run build"
 }
