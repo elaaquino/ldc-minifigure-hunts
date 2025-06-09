@@ -7,8 +7,8 @@ import './HuntPage.css';
 const mockHunts = {
   astronauts: ['Red','Pink', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple', 'Brown', 'White', 'Gray', 'Black'],
   easter: ['Trident', 'Dotted', 'Chocolate', 'Pirate', 'Striped', 'Glass', 'Sunglasses', 'Heart', 'Pink Tie'],
-  dreamz: ['Cooper', 'Mrs Castillo', 'Mateo', 'Izzie', 'Zoey', 'Mr Oz'],
-  onthego: ['Rocketship', 'Cowboy', 'Racecar', 'Boat', 'Airplane', 'Train'],
+  dreamzzz: ['Cooper', 'Mrs Castillo', 'Mateo', 'Izzie', 'Zoey', 'Mr Oz'],
+  transportation: ['Rocketship', 'Cowboy', 'Racecar', 'Boat', 'Airplane', 'Train'],
 };
 
 const getReferenceImage = (name) => {

@@ -8,8 +8,8 @@ function SelectHuntPage() {
   const hunts = [
     { id: 'astronauts', name: 'Rainbow Astronauts' },
     { id: 'easter', name: 'Easter Hunt' },
-    { id: 'dreamz', name: 'Dreamzzz Character Hunt' },
-    { id: 'onthego', name: 'On the go!' },
+    { id: 'dreamzzz', name: 'Dreamzzz Character Hunt' },
+    { id: 'transportation', name: 'On the go!' },
   ];
 
   return (
