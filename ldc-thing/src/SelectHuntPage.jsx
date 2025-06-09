@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import './SelectHuntPage.css'
 
 function SelectHuntPage() {
   const navigate = useNavigate();
@@ -11,30 +12,12 @@ function SelectHuntPage() {
   ];
 
   return (
-    <div
-      style={{
-        maxWidth: '480px',
-        margin: '0 auto',
-        padding: '20px',
-        textAlign: 'center',
-      }}
-    >
-      <h2 style={{ marginBottom: '20px' }}>Select a Hunt</h2>
-      <ul style={{ listStyle: 'none', padding: 0 }}>
+    <div className="hunt-page">
+      <h2>Select a Hunt</h2>
+      <ul className="hunt-list">
         {hunts.map((hunt) => (
-          <li key={hunt.id} style={{ marginBottom: '12px' }}>
-            <button
-              onClick={() => navigate(`/hunt/${hunt.id}`)}
-              style={{
-                width: '100%',
-                padding: '12px',
-                fontSize: '1rem',
-                borderRadius: '8px',
-                border: '1px solid #ccc',
-                background: '#5c5858',
-                cursor: 'pointer',
-              }}
-            >
+          <li className="button-format">
+            <button className="hunt-buttons" onClick={() => navigate(`/hunt/${hunt.id}`)}>
               {hunt.name}
             </button>
           </li>

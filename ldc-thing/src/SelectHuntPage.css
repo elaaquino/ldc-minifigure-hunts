@@ -1,0 +1,30 @@
+h2 {
+    color: black;
+    margin-bottom: 20px;
+}
+.hunt-buttons {
+    color:#444;
+    width: 100%;
+    padding: 12px;
+    font-size: 20px;
+    border-radius: 20px;
+    background-color: #fdf6d8;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.hunt-list {
+    list-style: none;
+    padding: 0;
+}
+
+.button-format {
+    margin-bottom: 12px;
+}
+
+.hunt-page {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
