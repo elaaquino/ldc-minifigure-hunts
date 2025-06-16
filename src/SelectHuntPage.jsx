@@ -25,7 +25,7 @@ function SelectHuntPage() {
         ))}
       </ul>
       <p className="hint-text">Need a hint?</p>
-      <p className="hint-text">Ask a staff member!</p>
+      <p className="hint-text">Ask a Master Model Builder!</p>
       <p className="hint-text2">Hunt data resets once site closes.</p>
     </div>
   );
