@@ -116,7 +116,7 @@ function HuntPage() {
     <div className="popup-overlay">
       <div className="popup-box">
         <h2>🎉 Congratulations!</h2>
-        <p>You found all the minifigures in the {huntId} hunt! Please check in with an employee. :D</p>
+        <p>You found all the minifigures in the {huntId} hunt! Please check in with a Master Model Builder at the Creative Workshop! :D</p>
         <button onClick={() => setShowPopup(false)}>Close</button>
       </div>
     </div>
