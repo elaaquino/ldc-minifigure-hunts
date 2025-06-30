@@ -34,7 +34,24 @@
     font-size: 12px;
     font-weight:bold;
 }
+.hint-text2:has(> .success) {
+  color: #228B22; 
+}
 
+.secret {
+    border-radius: 20px;
+    background-color: #fdf6d8;
+    color: black;
+    padding: 5px;
+}
+
+.submit {
+    padding: 7px;
+    margin-left: 5px;
+    background-color: #fdf6d8;
+    color:#444;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
 .hunt-page {
     width: 375px;
     margin: 0 auto;
