@@ -11,18 +11,18 @@ function SelectHuntPage() {
   });
 
   const [secretCode, setSecretCode] = useState(unlocked ? 'Unlocked!' : '');
-  const [message, setMessage] = useState(unlocked ? '✅ Bonus hunts unlocked!' : '');
+  const [message, setMessage] = useState(unlocked ? 'Bonus hunts unlocked!' : '');
 
   const baseHunts = [
     { id: 'astronauts', name: 'Rainbow Astronauts' },
     { id: 'easter', name: 'Easter Hunt' },
-    { id: 'dreamzzz', name: 'Dreamzzz Character Hunt' },
+    { id: 'wild', name: 'A Wild Scavenger Hunt' },
     { id: 'transportation', name: 'On the go!' },
   ];
 
   const bonusHunts = [
-    { id: 'underwater', name: 'Underwater Adventure' },
-    { id: 'space-explorers', name: 'Space Explorers' },
+    { id: 'dreamzzz', name: 'DreamZZZ Characters' },
+    { id: 'crystal', name: 'Crystal Treasure Hunt' },
   ];
 
   const allHunts = unlocked ? [...baseHunts, ...bonusHunts] : baseHunts;
@@ -32,9 +32,9 @@ function SelectHuntPage() {
       setUnlocked(true);
       sessionStorage.setItem('bonusUnlocked', 'true');
       setSecretCode('Unlocked!');
-      setMessage('✅ Bonus hunts unlocked!');
+      setMessage('Bonus hunts unlocked!');
     } else {
-      setMessage('❌ Incorrect code. Try again!');
+      setMessage('Incorrect code. Try again!');
     }
   };
 
