@@ -6,8 +6,8 @@ import './HuntPage.css';
 
 const mockHunts = {
   astronauts: ['Red','Pink', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple', 'Brown', 'White', 'Gray', 'Black'],
-  easter: ['Farmer', 'Buck Teeth', 'Chocolate', 'Pirate', 'Striped', 'Goggles', 'Sunglasses', 'Heart', 'Pink Tie'],
-  dreamzzz: ['Cooper', 'Mrs Castillo', 'Mateo', 'Izzie', 'Zoey', 'Mr Oz'],
+  droids: ['Lady Bot', 'Axon Klaxon', 'Butler Bot', 'Cardboard Robot', 'Repair Tech', 'Clockwork', 'Nurse Android', 'Evil Robot'],
+  pirates: ['First Mate Slinger', 'Captain Ironhook', 'Valentina', 'Lady Anne', 'Barbossa', 'Scallywag', 'Ben Gunn', 'Robin Loot', 'Port and Starboard', 'Shipwreck'],
   transportation: ['Rocketship', 'Cowboy', 'Racecar', 'Boat', 'Airplane', 'Train'],
 };
 
@@ -32,7 +32,7 @@ function HuntPage() {
     console.log("checking hunt");
     if (minifigs.length > 0 && Object.keys(found).length === minifigs.length) {
       console.log("hunt finished, running popup");
-      setShowPopup(true); // you'll define this popup state below
+      setShowPopup(true);
     }
   }, [found, minifigs]);
 

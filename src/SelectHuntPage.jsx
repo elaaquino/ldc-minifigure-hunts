@@ -15,9 +15,8 @@ function SelectHuntPage() {
 
   const baseHunts = [
     { id: 'astronauts', name: 'Rainbow Astronauts' },
-    { id: 'easter', name: 'Easter Hunt' },
-    { id: 'wild', name: 'A Wild Scavenger Hunt' },
-    { id: 'transportation', name: 'On the go!' },
+    { id: 'droids', name: 'Droids' },
+    { id: 'pirates', name: 'Pirates' },
   ];
 
   const bonusHunts = [
