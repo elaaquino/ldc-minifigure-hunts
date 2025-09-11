@@ -9,6 +9,8 @@ const mockHunts = {
   droids: ['Lady Bot', 'Axon Klaxon', 'Butler Bot', 'Cardboard Robot', 'Repair Tech', 'Clockwork', 'Nurse Android', 'Evil Robot'],
   pirates: ['First Mate Slinger', 'Captain Ironhook', 'Valentina', 'Lady Anne', 'Barbossa', 'Scallywag', 'Ben Gunn', 'Robin Loot', 'Port and Starboard', 'Shipwreck'],
   transportation: ['Rocketship', 'Cowboy', 'Racecar', 'Boat', 'Airplane', 'Train'],
+  wild: ['Elephant', 'Leopard', 'Octopus', 'Giraffe', 'Fox', 'Tiger', 'Llama', 'Wolf'],
+  movie: ['Benny', 'Emmet', 'Wyldstyle', 'President Business', 'MetalBeard', 'Unikitty'],
 };
 
 const getReferenceImage = (name) => {

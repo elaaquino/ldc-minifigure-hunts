@@ -14,14 +14,14 @@ function SelectHuntPage() {
   const [message, setMessage] = useState(unlocked ? 'Bonus hunts unlocked!' : '');
 
   const baseHunts = [
-    { id: 'astronauts', name: 'Rainbow Astronauts' },
     { id: 'droids', name: 'Droids' },
     { id: 'pirates', name: 'Pirates' },
   ];
 
   const bonusHunts = [
-    { id: 'dreamzzz', name: 'DreamZZZ Characters' },
-    { id: 'crystal', name: 'Crystal Treasure Hunt' },
+    { id: 'astronauts', name: 'Rainbow Astronauts' },
+    { id: 'wild', name: 'A Wild Hunt' },
+    { id: 'movie', name: 'The LEGO Movie' },
   ];
 
   const allHunts = unlocked ? [...baseHunts, ...bonusHunts] : baseHunts;
