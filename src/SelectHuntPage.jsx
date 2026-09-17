@@ -43,17 +43,19 @@ function SelectHuntPage() {
     async function loadHunts() {
       const { data, error } = await supabase
         .from('hunts')
-        .select('id, name, slug, is_secret, display_order')
-        .eq('is_visible', true)
+        .select('id, name, slug, is_secret, display_order, hunt_status')
+        .eq('hunt_status', 'active')
         .order('display_order', { ascending: true });
 
       if (error) {
         console.error('Error loading hunts:', error);
         setLoadError('Unable to load scavenger hunts.');
-      } else {
-        setHunts(data || []);
+        return;
       }
 
+      console.log('Loaded hunts:', data);
+
+      setHunts(data || []);
       setLoading(false);
     }
 
