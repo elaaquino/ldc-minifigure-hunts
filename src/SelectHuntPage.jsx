@@ -27,6 +27,19 @@ function SelectHuntPage() {
   });
 
   useEffect(() => {
+  async function testConnection() {
+    const { data, error } = await supabase
+      .from("hunts")
+      .select("*");
+
+    console.log("DATA:", data);
+    console.log("ERROR:", error);
+  }
+
+  testConnection();
+}, []);
+
+  useEffect(() => {
     async function loadHunts() {
       const { data, error } = await supabase
         .from('hunts')
