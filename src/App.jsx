@@ -3,6 +3,7 @@ import HuntPage from './HuntPage';
 import SelectHuntPage from './SelectHuntPage'; //
 import React from 'react';
 import './App.css';
+import AdminPage from './AdminPage';
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ function App() {
       <Route path="/" element={<LandingPage />} />
       <Route path="/select" element={<SelectHuntPage />} />
       <Route path="/hunt/:huntId" element={<HuntPage />} />
+      <Route path="/admin" element={<AdminPage />} />
     </Routes>
   );
 }

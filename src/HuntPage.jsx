@@ -21,7 +21,18 @@ function HuntPage() {
 
   const [showPopup, setShowPopup] = useState(false);
 
-  // Load the hunt and its items from Supabase
+  // Converts a stored Supabase path into a public image URL
+  const getImageUrl = (path) => {
+    if (!path) return null;
+
+    const { data } = supabase.storage
+      .from('hunt-images')
+      .getPublicUrl(path);
+
+    return data.publicUrl;
+  };
+
+  // Load current hunt + hunt items
   useEffect(() => {
     async function loadHunt() {
       setLoading(true);
@@ -46,32 +57,32 @@ function HuntPage() {
       const { data: itemData, error: itemError } = await supabase
         .from('hunt_items')
         .select('*')
-        .eq('hunt_id', huntData.id);
-
-      console.log('HUNT DATA:', huntData);
-      console.log('ITEM DATA:', itemData);
-      console.log('ITEM ERROR:', itemError);
+        .eq('hunt_id', huntData.id)
+        .order('display_order', { ascending: true });
 
       if (itemError) {
         console.error('Error loading hunt items:', itemError);
-        setLoadError('Unable to load the scavenger hunt items.');
-      } else {
-        console.log('Loaded hunt items:', itemData);
-        setMinifigs(itemData || []);
+        setLoadError('Unable to load scavenger hunt items.');
+        setLoading(false);
+        return;
       }
 
+      console.log('Loaded hunt:', huntData);
+      console.log('Loaded hunt items:', itemData);
+
+      setMinifigs(itemData || []);
       setLoading(false);
     }
 
     loadHunt();
   }, [huntId]);
 
-  // Save progress for this session
+  // Save progress in session storage
   useEffect(() => {
     sessionStorage.setItem(storageKey, JSON.stringify(found));
   }, [found, storageKey]);
 
-  // Show completion popup when all items are found
+  // Show completion popup
   useEffect(() => {
     if (
       minifigs.length > 0 &&
@@ -146,19 +157,27 @@ function HuntPage() {
       <div className="minifig-list">
         {minifigs.map((item) => {
           const uploadedUrl = found[item.id];
+          const referenceImageUrl = getImageUrl(item.image_path);
+
+          console.log('ITEM:', item.name);
+          console.log('IMAGE PATH:', item.image_path);
+          console.log('IMAGE URL:', referenceImageUrl);
 
           return (
-            <div key={item.id} className="minifig-row">
+            <div
+              key={item.id}
+              className="minifig-row"
+            >
 
               <div className="minifig-column">
                 <p className="minifig-name">
                   {item.name}
                 </p>
 
-                {item.image_path && (
+                {referenceImageUrl && (
                   <img
                     className="minifig-img"
-                    src={item.image_path}
+                    src={referenceImageUrl}
                     alt={item.name}
                   />
                 )}
@@ -173,6 +192,7 @@ function HuntPage() {
               <div className="upload-column">
                 {uploadedUrl ? (
                   <div className="upload-complete">
+
                     <img
                       src={uploadedUrl}
                       alt={`Uploaded for ${item.name}`}
@@ -191,9 +211,11 @@ function HuntPage() {
                         style={{ display: 'none' }}
                       />
                     </label>
+
                   </div>
                 ) : (
                   <div className="upload-placeholder">
+
                     <p className="upload-title">
                       Found {item.name}?
                     </p>
@@ -218,6 +240,7 @@ function HuntPage() {
                     <p>
                       Press here and take a picture!
                     </p>
+
                   </div>
                 )}
               </div>
