@@ -1,4 +1,5 @@
 import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Analytics } from "@vercel/analytics/next"
 import HuntPage from './HuntPage';
 import SelectHuntPage from './SelectHuntPage'; //
 import React from 'react';
