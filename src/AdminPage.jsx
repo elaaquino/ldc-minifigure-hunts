@@ -115,7 +115,7 @@ function AdminPage() {
           </p>
 
           <form onSubmit={handleLogin}>
-            <label>
+            <label className="email-label">
               Email
             </label>
 
@@ -128,7 +128,7 @@ function AdminPage() {
               required
             />
 
-            <label>
+            <label className="password-label">
               Password
             </label>
 
