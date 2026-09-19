@@ -1,0 +1,285 @@
+.admin-page {
+  min-height: 100vh;
+  width: 100vw;
+  background-color: #f1d75c;
+  color: #222;
+}
+
+.admin-header {
+  width: 100%;
+  box-sizing: border-box;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 24px 60px;
+
+  background-color: #f8f8f7;
+  border-bottom: 1px solid #ddd;
+}
+
+.admin-header h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.admin-header p {
+  margin: 5px 0 0;
+  color: #666;
+}
+
+.logout-button {
+  padding: 10px 18px;
+
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-left: 60px;
+
+  background-color: rgb(0, 0, 0);
+
+  cursor: pointer;
+}
+
+.admin-content {
+  width: 100%;
+  max-width: 1400px;
+
+  box-sizing: border-box;
+
+  margin: 0 auto;
+  padding: 35px 40px;
+}
+
+.admin-toolbar {
+  display: flex;
+  justify-content: flex-end;
+
+  margin-bottom: 20px;
+}
+
+.new-hunt-button {
+  padding: 12px 22px;
+
+  border: none;
+  border-radius: 6px;
+
+  background-color: #222;
+  color: white;
+
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.admin-message {
+  padding: 12px 16px;
+  margin-bottom: 20px;
+
+  background-color: white;
+
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.hunt-section {
+  margin-bottom: 45px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin-bottom: 15px;
+}
+
+.section-heading h2 {
+  margin: 0;
+}
+
+.section-heading span {
+  background-color: #ddd;
+
+  padding: 3px 9px;
+
+  border-radius: 20px;
+
+  font-size: 13px;
+}
+
+.hunt-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fill, minmax(320px, 1fr));
+
+  gap: 18px;
+}
+
+.admin-hunt-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  min-height: 150px;
+
+  padding: 20px;
+
+  background-color: white;
+
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.admin-hunt-card h3 {
+  margin-top: 0;
+  margin-bottom: 6px;
+
+  font-size: 20px;
+}
+
+.admin-hunt-card p {
+  margin-top: 0;
+  color: #666;
+}
+
+.hunt-actions {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-top: 20px;
+}
+
+.hunt-actions button {
+  padding: 8px 14px;
+
+  border: 1px solid #ccc;
+  border-radius: 5px;
+
+  background-color: rgb(0, 0, 0);
+
+  cursor: pointer;
+}
+
+.hunt-actions button:hover {
+  background-color: #eee;
+}
+
+.publish-button {
+  font-weight: bold;
+}
+
+.archive-button {
+  color: #ffffff;
+}
+
+.edit-button {
+  font-weight: bold;
+}
+
+
+/* -------------------------- */
+/* ADMIN LOGIN                */
+/* -------------------------- */
+
+.admin-login-page {
+  min-height: 100vh;
+  width: 100vw;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: #f1d75c;
+
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.admin-login-box {
+  width: 100%;
+  max-width: 420px;
+
+  padding: 40px;
+
+  background-color: white;
+
+  border: 1px solid #ddd;
+  border-radius: 10px;
+
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.admin-login-box h1 {
+  margin-top: 0;
+  margin-bottom: 6px;
+
+  text-align: center;
+}
+
+.login-subtitle {
+  text-align: center;
+
+  margin-top: 0;
+  margin-bottom: 30px;
+
+  color: #666;
+}
+
+.admin-login-box form {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-login-box label {
+  margin-bottom: 6px;
+
+  font-weight: bold;
+}
+
+.admin-login-box input {
+  box-sizing: border-box;
+
+  width: 100%;
+
+  padding: 12px;
+
+  margin-bottom: 18px;
+
+  border: 1px solid #bbb;
+  border-radius: 6px;
+
+  font-size: 16px;
+}
+
+.login-button {
+  width: 100%;
+
+  padding: 12px;
+
+  border: none;
+  border-radius: 6px;
+
+  background-color: #222;
+  color: white;
+
+  font-size: 16px;
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+.login-button:hover {
+  background-color: #444;
+}
+
+.login-message {
+  margin-top: 15px;
+
+  text-align: center;
+  color: #a33;
+}
