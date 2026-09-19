@@ -7,19 +7,32 @@ function EditHuntPage() {
   const { huntId } = useParams();
   const navigate = useNavigate();
 
-  // Hunt settings
+  // -----------------------------------------
+  // HUNT SETTINGS
+  // -----------------------------------------
+
   const [name, setName] = useState('');
   const [isSecret, setIsSecret] = useState(false);
   const [status, setStatus] = useState('draft');
   const [displayOrder, setDisplayOrder] = useState(1);
 
-  // Hunt items
-  const [items, setItems] = useState([]);
-  const [newItemName, setNewItemName] = useState('');
+  // -----------------------------------------
+  // HUNT ITEMS
+  // -----------------------------------------
 
-  // Page states
+  const [items, setItems] = useState([]);
+
+  const [newItemName, setNewItemName] = useState('');
+  const [newItemImage, setNewItemImage] = useState(null);
+
+  // -----------------------------------------
+  // PAGE STATES
+  // -----------------------------------------
+
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [addingItem, setAddingItem] = useState(false);
+
   const [message, setMessage] = useState('');
 
   // -----------------------------------------
@@ -77,6 +90,22 @@ function EditHuntPage() {
   }, [huntId]);
 
   // -----------------------------------------
+  // GET IMAGE URL
+  // -----------------------------------------
+
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) {
+      return null;
+    }
+
+    const { data } = supabase.storage
+      .from('hunt-images')
+      .getPublicUrl(imagePath);
+
+    return data.publicUrl;
+  };
+
+  // -----------------------------------------
   // SAVE HUNT SETTINGS
   // -----------------------------------------
 
@@ -108,64 +137,184 @@ function EditHuntPage() {
   };
 
   // -----------------------------------------
-  // ADD HUNT ITEM
+  // ADD NEW ITEM + UPLOAD IMAGE
   // -----------------------------------------
 
   const handleAddItem = async () => {
     if (!newItemName.trim()) {
-      setMessage('Please enter an item name.');
+      setMessage('Please enter a minifigure name.');
       return;
     }
 
-    const nextDisplayOrder =
-      items.length > 0
-        ? Math.max(
-            ...items.map((item) => item.display_order || 0)
-          ) + 1
-        : 1;
+    if (!newItemImage) {
+      setMessage('Please select a reference image.');
+      return;
+    }
 
-    const { error } = await supabase
-      .from('hunt_items')
-      .insert({
-        hunt_id: Number(huntId),
-        name: newItemName.trim(),
-        display_order: nextDisplayOrder
-      });
+    setAddingItem(true);
+    setMessage('');
 
-    if (error) {
+    let uploadedImagePath = null;
+
+    try {
+      // Get file extension
+      const fileExtension =
+        newItemImage.name.split('.').pop().toLowerCase();
+
+      // Create a safe version of the minifigure name
+      const safeName = newItemName
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '');
+
+      // Create unique filename
+      const fileName =
+        `${Date.now()}-${safeName}.${fileExtension}`;
+
+      // Each hunt gets its own folder
+      const imagePath = `${huntId}/${fileName}`;
+
+      uploadedImagePath = imagePath;
+
+      // -------------------------------------
+      // UPLOAD TO SUPABASE STORAGE
+      // -------------------------------------
+
+      const { error: uploadError } =
+        await supabase.storage
+          .from('hunt-images')
+          .upload(imagePath, newItemImage, {
+            cacheControl: '3600',
+            upsert: false
+          });
+
+      if (uploadError) {
+        throw uploadError;
+      }
+
+      // -------------------------------------
+      // DETERMINE DISPLAY ORDER
+      // -------------------------------------
+
+      const nextDisplayOrder =
+        items.length > 0
+          ? Math.max(
+              ...items.map(
+                (item) => item.display_order || 0
+              )
+            ) + 1
+          : 1;
+
+      // -------------------------------------
+      // CREATE DATABASE ROW
+      // -------------------------------------
+
+      const { error: insertError } =
+        await supabase
+          .from('hunt_items')
+          .insert({
+            hunt_id: Number(huntId),
+            name: newItemName.trim(),
+            image_path: imagePath,
+            display_order: nextDisplayOrder
+          });
+
+      if (insertError) {
+        // Database failed, so remove the image
+        // we just uploaded.
+        await supabase.storage
+          .from('hunt-images')
+          .remove([imagePath]);
+
+        throw insertError;
+      }
+
+      // -------------------------------------
+      // SUCCESS
+      // -------------------------------------
+
+      setNewItemName('');
+      setNewItemImage(null);
+
+      // Reset the file input itself
+      const fileInput =
+        document.getElementById('new-item-image');
+
+      if (fileInput) {
+        fileInput.value = '';
+      }
+
+      setMessage('Item added successfully!');
+
+      await loadItems();
+
+    } catch (error) {
       console.error('Error adding item:', error);
-      setMessage('Unable to add item.');
-      return;
+
+      setMessage(
+        'Unable to add item. Check the console for details.'
+      );
+
+      // Attempt cleanup if something failed
+      // after the image uploaded.
+      if (uploadedImagePath) {
+        console.log(
+          'Uploaded image path:',
+          uploadedImagePath
+        );
+      }
+
+    } finally {
+      setAddingItem(false);
     }
-
-    setNewItemName('');
-    setMessage('Item added!');
-
-    await loadItems();
   };
 
   // -----------------------------------------
-  // DELETE HUNT ITEM
+  // DELETE ITEM + STORAGE IMAGE
   // -----------------------------------------
 
-  const handleDeleteItem = async (itemId) => {
+  const handleDeleteItem = async (item) => {
     const confirmed = window.confirm(
-      'Are you sure you want to delete this item?'
+      `Are you sure you want to delete "${item.name}"?`
     );
 
     if (!confirmed) {
       return;
     }
 
-    const { error } = await supabase
+    setMessage('');
+
+    // Delete database row first
+    const { error: deleteError } = await supabase
       .from('hunt_items')
       .delete()
-      .eq('id', itemId);
+      .eq('id', item.id);
 
-    if (error) {
-      console.error('Error deleting item:', error);
+    if (deleteError) {
+      console.error(
+        'Error deleting hunt item:',
+        deleteError
+      );
+
       setMessage('Unable to delete item.');
       return;
+    }
+
+    // If the item has an image, remove it
+    // from Supabase Storage too.
+    if (item.image_path) {
+      const { error: storageError } =
+        await supabase.storage
+          .from('hunt-images')
+          .remove([item.image_path]);
+
+      if (storageError) {
+        console.error(
+          'Item deleted, but image could not be removed:',
+          storageError
+        );
+      }
     }
 
     setMessage('Item deleted.');
@@ -174,23 +323,15 @@ function EditHuntPage() {
   };
 
   // -----------------------------------------
-  // GET SUPABASE IMAGE URL
+  // IMAGE PREVIEW
   // -----------------------------------------
 
-  const getImageUrl = (imagePath) => {
-    if (!imagePath) {
-      return null;
-    }
-
-    const { data } = supabase.storage
-      .from('hunt-images')
-      .getPublicUrl(imagePath);
-
-    return data.publicUrl;
-  };
+  const newImagePreview = newItemImage
+    ? URL.createObjectURL(newItemImage)
+    : null;
 
   // -----------------------------------------
-  // LOADING SCREEN
+  // LOADING
   // -----------------------------------------
 
   if (loading) {
@@ -208,9 +349,10 @@ function EditHuntPage() {
   return (
     <div className="edit-hunt-page">
 
-      {/* Header */}
+      {/* HEADER */}
 
       <header className="edit-hunt-header">
+
         <div>
           <h1>Edit Hunt</h1>
 
@@ -225,21 +367,26 @@ function EditHuntPage() {
         >
           ← Back to Dashboard
         </button>
+
       </header>
 
       <main className="edit-hunt-content">
 
-        {/* Hunt Settings */}
+        {/* -------------------------------- */}
+        {/* HUNT SETTINGS                    */}
+        {/* -------------------------------- */}
 
         <form
           className="edit-hunt-form"
           onSubmit={handleSave}
         >
+
           <section className="form-section">
 
             <h2>Hunt Settings</h2>
 
             <div className="form-group">
+
               <label htmlFor="hunt-name">
                 Hunt Name
               </label>
@@ -253,11 +400,13 @@ function EditHuntPage() {
                 }
                 required
               />
+
             </div>
 
             <div className="form-row">
 
               <div className="form-group">
+
                 <label htmlFor="hunt-status">
                   Status
                 </label>
@@ -269,6 +418,7 @@ function EditHuntPage() {
                     setStatus(event.target.value)
                   }
                 >
+
                   <option value="active">
                     Active
                   </option>
@@ -280,10 +430,13 @@ function EditHuntPage() {
                   <option value="archived">
                     Stored
                   </option>
+
                 </select>
+
               </div>
 
               <div className="form-group">
+
                 <label htmlFor="display-order">
                   Display Order
                 </label>
@@ -297,11 +450,13 @@ function EditHuntPage() {
                     setDisplayOrder(event.target.value)
                   }
                 />
+
               </div>
 
             </div>
 
             <div className="secret-setting">
+
               <input
                 id="secret-hunt"
                 type="checkbox"
@@ -314,6 +469,7 @@ function EditHuntPage() {
               <label htmlFor="secret-hunt">
                 Secret Hunt
               </label>
+
             </div>
 
             <button
@@ -321,13 +477,18 @@ function EditHuntPage() {
               type="submit"
               disabled={saving}
             >
-              {saving ? 'Saving...' : 'Save Changes'}
+              {saving
+                ? 'Saving...'
+                : 'Save Changes'}
             </button>
 
           </section>
+
         </form>
 
-        {/* Status Message */}
+        {/* -------------------------------- */}
+        {/* MESSAGE                          */}
+        {/* -------------------------------- */}
 
         {message && (
           <div className="edit-message">
@@ -335,32 +496,47 @@ function EditHuntPage() {
           </div>
         )}
 
-        {/* Hunt Items */}
+        {/* -------------------------------- */}
+        {/* HUNT ITEMS                       */}
+        {/* -------------------------------- */}
 
         <section className="hunt-items-section">
 
           <div className="items-header">
+
             <div>
               <h2>Hunt Items</h2>
 
               <p>
-                Manage the minifigures guests need to find.
+                Manage the minifigures guests need to
+                find.
               </p>
             </div>
 
             <span className="item-count">
-              {items.length} Items
+              {items.length}{' '}
+              {items.length === 1
+                ? 'Item'
+                : 'Items'}
             </span>
+
           </div>
+
+          {/* EXISTING ITEMS */}
 
           <div className="admin-items-list">
 
             {items.length === 0 ? (
+
               <div className="empty-items">
-                No items have been added to this hunt yet.
+                No items have been added to this hunt
+                yet.
               </div>
+
             ) : (
+
               items.map((item) => {
+
                 const imageUrl =
                   getImageUrl(item.image_path);
 
@@ -370,20 +546,28 @@ function EditHuntPage() {
                     key={item.id}
                   >
 
+                    {/* IMAGE */}
+
                     <div className="admin-item-image">
 
                       {imageUrl ? (
+
                         <img
                           src={imageUrl}
                           alt={item.name}
                         />
+
                       ) : (
+
                         <div className="no-item-image">
                           No Image
                         </div>
+
                       )}
 
                     </div>
+
+                    {/* INFO */}
 
                     <div className="admin-item-info">
 
@@ -398,13 +582,15 @@ function EditHuntPage() {
 
                     </div>
 
+                    {/* ACTIONS */}
+
                     <div className="admin-item-actions">
 
                       <button
                         type="button"
                         className="delete-item-button"
                         onClick={() =>
-                          handleDeleteItem(item.id)
+                          handleDeleteItem(item)
                         }
                       >
                         Delete
@@ -415,42 +601,112 @@ function EditHuntPage() {
                   </div>
                 );
               })
+
             )}
 
           </div>
 
-          {/* Add Item */}
+          {/* -------------------------------- */}
+          {/* ADD NEW ITEM                     */}
+          {/* -------------------------------- */}
 
           <div className="add-item-section">
 
-            <h3>Add New Item</h3>
+            <div className="add-item-heading">
 
-            <p>
-              Add another minifigure to this scavenger hunt.
-            </p>
+              <h3>Add New Item</h3>
 
-            <div className="add-item-controls">
+              <p>
+                Add a minifigure and its reference
+                image to this scavenger hunt.
+              </p>
 
-              <input
-                type="text"
-                placeholder="Minifigure name"
-                value={newItemName}
-                onChange={(event) =>
-                  setNewItemName(event.target.value)
-                }
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter') {
-                    event.preventDefault();
-                    handleAddItem();
+            </div>
+
+            <div className="add-item-form">
+
+              {/* NAME */}
+
+              <div className="add-item-field">
+
+                <label htmlFor="new-item-name">
+                  Minifigure Name
+                </label>
+
+                <input
+                  id="new-item-name"
+                  type="text"
+                  placeholder="Example: Green Astronaut"
+                  value={newItemName}
+                  onChange={(event) =>
+                    setNewItemName(
+                      event.target.value
+                    )
                   }
-                }}
-              />
+                />
+
+              </div>
+
+              {/* IMAGE */}
+
+              <div className="add-item-field">
+
+                <label htmlFor="new-item-image">
+                  Reference Image
+                </label>
+
+                <input
+                  id="new-item-image"
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp"
+                  onChange={(event) =>
+                    setNewItemImage(
+                      event.target.files?.[0] ||
+                        null
+                    )
+                  }
+                />
+
+                <span className="image-help-text">
+                  PNG, JPG, JPEG, or WEBP
+                </span>
+
+              </div>
+
+              {/* IMAGE PREVIEW */}
+
+              {newImagePreview && (
+
+                <div className="new-image-preview">
+
+                  <p>Image Preview</p>
+
+                  <div className="preview-image-box">
+
+                    <img
+                      src={newImagePreview}
+                      alt="New minifigure preview"
+                    />
+
+                  </div>
+
+                </div>
+
+              )}
+
+              {/* ADD BUTTON */}
 
               <button
                 type="button"
+                className="add-item-button"
                 onClick={handleAddItem}
+                disabled={addingItem}
               >
-                + Add Item
+
+                {addingItem
+                  ? 'Uploading & Adding...'
+                  : '+ Add Item'}
+
               </button>
 
             </div>
