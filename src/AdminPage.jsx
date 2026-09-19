@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { supabase } from './supabaseClient';
+import { useNavigate } from 'react-router-dom';
 import './AdminPage.css';
 
 function AdminPage() {
@@ -12,6 +13,8 @@ function AdminPage() {
   const [hunts, setHunts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
+  
+  const navigate = useNavigate();
 
   // Check whether a manager is already logged in
   useEffect(() => {
@@ -64,6 +67,7 @@ function AdminPage() {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
+    navigate('/login');
   };
 
   const loadHunts = async () => {
@@ -255,6 +259,7 @@ function AdminPage() {
 
                     <button
                       className="edit-button"
+                      onClick={() => navigate(`/admin/edit/${hunt.id}`)}
                     >
                       Edit
                     </button>
@@ -324,6 +329,7 @@ function AdminPage() {
 
                     <button
                       className="edit-button"
+                      onClick={() => navigate(`/admin/edit/${hunt.id}`)}
                     >
                       Edit
                     </button>
