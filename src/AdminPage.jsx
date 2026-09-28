@@ -208,11 +208,7 @@ function AdminPage() {
         <div className="admin-toolbar">
           <button
             className="new-hunt-button"
-            onClick={() =>
-              setMessage(
-                'New Hunt form coming next!'
-              )
-            }
+            onClick={() => navigate('/admin/hunts/new')}
           >
             + New Hunt
           </button>
