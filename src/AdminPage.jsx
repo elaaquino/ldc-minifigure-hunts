@@ -66,8 +66,14 @@ function AdminPage() {
   };
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    navigate('/login');
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      console.error('Logout error:', error);
+      return;
+    }
+
+    setSession(null);
   };
 
   const loadHunts = async () => {
