@@ -4,13 +4,13 @@
 
 .add-hunt-page {
   min-height: 100vh;
-  width: 100%;
+  width: 100vw;
 
   box-sizing: border-box;
 
   padding: 40px;
 
-  background-color: #f5f5f5;
+  background-color: #f1d75c;
   color: #222;
 }
 

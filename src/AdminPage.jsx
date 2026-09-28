@@ -396,6 +396,9 @@ function AdminPage() {
 
                     <button
                       className="edit-button"
+                      onClick={() =>
+                        navigate(`/admin/edit/${hunt.id}`)
+                      }
                     >
                       Edit
                     </button>
